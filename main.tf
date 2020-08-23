@@ -3,7 +3,7 @@ resource "aws_appsync_resolver" "default" {
   type              = each.value.type
   api_id            = var.api_id
   data_source       = each.value.data_source
-  field             = each.key
+  field             = each.value.field
   request_template  = each.value.request_template
   response_template = each.value.response_template
 }
