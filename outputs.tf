@@ -3,7 +3,7 @@
 # -----------------------------------------------------------------------------
 
 output "resolver_config" {
-  value       = { for r in var.resolver_config : r.field => r...}
+  value       = { for r in var.resolver_config : r.id => r... }
   description = "A list of resolver ARNs"
 }
 
