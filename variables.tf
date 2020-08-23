@@ -50,13 +50,6 @@ variable "resolver_config" {
     request_template  = string
     response_template = string
   }))
-  default = [{
-    type              = ""
-    field             = ""
-    data_source       = ""
-    request_template  = ""
-    response_template = ""
-  }]
 }
 
 variable "enabled" {
