@@ -1,5 +1,5 @@
 resource "aws_appsync_resolver" "default" {
-  for_each          = var.enabled == true && length(var.resolvers) > 0 ? { for r in var.resolvers : r.field => r } : {}
+  for_each          = var.enabled == true && length(var.resolver_config) > 0 ? { for r in var.resolver_config : r.field => r } : {}
   type              = each.value.type
   api_id            = var.api_id
   data_source       = each.value.data_source
