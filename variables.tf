@@ -64,6 +64,16 @@ variable "api_id" {
   type        = string
 }
 
+variable "request_template" {
+  description = "(Required) - The API ID for the GraphQL API."
+  type        = string
+}
+
+variable "response_template" {
+  description = "(Required) - The API ID for the GraphQL API."
+  type        = string
+}
+
 # -----------------------------------------------------------------------------
 # Variables: TF-MOD-LABEL
 # -----------------------------------------------------------------------------
