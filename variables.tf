@@ -43,7 +43,14 @@ variable "availability_zones" {
 
 variable "resolver_config" {
   description = "(Optional) - A list of maps that contain configuration for appsync resolvers to iteration over"
-  type        = list(map(string))
+  type = list(object({
+    id                = string
+    type              = string
+    field             = string
+    data_source       = string
+    request_template  = string
+    response_template = string
+  }))
 }
 
 variable "enabled" {
