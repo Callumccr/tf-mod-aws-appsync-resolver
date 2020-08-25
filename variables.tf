@@ -65,7 +65,7 @@ variable "pipeline_resolver_config" {
   }))
 }
 
-variable "template_template_dir" {
+variable "template_dir" {
   description = "(Required) - The full directory path of the appsync templates"
   type        = string
 }
