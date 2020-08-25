@@ -1,7 +1,0 @@
-#set($id=$ctx.args.licence+'_'+$ctx.args.zoneStartTimestamp)
-
-{
-    "version": "2018-05-29",
-    "operation": "DELETE",
-    "path": $util.toJson("/scorezone/_doc/$id")
-}

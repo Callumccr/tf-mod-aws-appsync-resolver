@@ -1,9 +1,0 @@
-#set($id=$ctx.args.reg+'_'+$ctx.args.policyId+'_'+$ctx.args.policyDate)
-{
-    "version": "2018-05-29",
-    "operation": "POST",
-    "path": "/policyvehicle/_update/$id",
-    "params": {
-        "body": $util.toJson({"doc": $context.arguments})
-    }
-}

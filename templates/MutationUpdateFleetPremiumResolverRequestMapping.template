@@ -1,9 +1,0 @@
-#set($id=$ctx.args.fleetId+'_'+$ctx.args.period+'_'+$ctx.args.periodEndTimestamp)
-{
-    "version": "2018-05-29",
-    "operation": "POST",
-    "path": "/fleetpremium/_update/$id",
-    "params": {
-        "body": $util.toJson({"doc": $context.arguments})
-    }
-}

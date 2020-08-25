@@ -1,8 +1,0 @@
-{
-  "version": "2018-05-29",
-  "operation": "GetItem",
-  "key": {
-    "licence": $util.dynamodb.toDynamoDBJson($ctx.args.licence),
-    "startDate": $util.dynamodb.toDynamoDBJson($ctx.args.startDate),
-  },
-}

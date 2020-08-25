@@ -1,9 +1,0 @@
-#set($res = $util.toJson($ctx.result))
-#if($ctx.identity && $ctx.result)
-	#if($ctx.result.fleetId == $util.defaultIfNullOrBlank($ctx.identity.claims["custom:custom:organization"], "empty"))
-    #else
-    	#set($res = $util.toJson(null))
-	#end
-#end
-
-$res

@@ -1,6 +1,0 @@
-#set($id=$ctx.args.licence+'_'+$ctx.args.startTimestamp)
-{
-    "version":"2018-05-29",
-    "operation":"DELETE",
-    "path":"/tripscore/_doc/$id"
-}

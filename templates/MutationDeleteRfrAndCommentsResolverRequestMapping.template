@@ -1,8 +1,0 @@
-{
-  "version": "2018-05-29",
-  "operation": "DeleteItem",
-  "key": {
-    "motTestNumber": $util.dynamodb.toDynamoDBJson($ctx.args.motTestNumber),
-    "text": $util.dynamodb.toDynamoDBJson($ctx.args.text),
-  },
-}

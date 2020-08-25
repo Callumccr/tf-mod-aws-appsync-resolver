@@ -1,8 +1,0 @@
-{
-	"items": [
-        #foreach($bucket in $context.result.aggregations.licences.buckets)
-          	#if( $velocityCount > 1 ) , #end
-            $util.toJson($bucket.timestamp.hits.hits.get(0).get("_source"))
-        #end
-    ]
-}

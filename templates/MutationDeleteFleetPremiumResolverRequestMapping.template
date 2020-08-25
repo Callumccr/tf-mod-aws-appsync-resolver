@@ -1,6 +1,0 @@
-#set($id=$ctx.args.fleetId+'_'+$ctx.args.period+'_'+$ctx.args.periodEndTimestamp)
-{
-    "version":"2018-05-29",
-    "operation":"DELETE",
-    "path":"/fleetpremium/_doc/$id"
-}

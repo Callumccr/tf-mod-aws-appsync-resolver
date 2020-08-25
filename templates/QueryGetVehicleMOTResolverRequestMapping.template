@@ -1,8 +1,0 @@
-{
-  "version": "2018-05-29",
-  "operation": "GetItem",
-  "key": {
-    "registrationNumber": $util.dynamodb.toDynamoDBJson($ctx.args.registrationNumber),
-    "motTestNumber": $util.dynamodb.toDynamoDBJson($ctx.args.motTestNumber),
-  },
-}

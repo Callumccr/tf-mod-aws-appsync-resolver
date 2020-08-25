@@ -1,8 +1,0 @@
-{
-  "version": "2018-05-29",
-  "operation": "GetItem",
-  "key": {
-    "fleetId": $util.dynamodb.toDynamoDBJson($ctx.args.fleetId),
-	"operatorEmail": $util.dynamodb.toDynamoDBJson($ctx.args.operatorEmail),
-  },
-}

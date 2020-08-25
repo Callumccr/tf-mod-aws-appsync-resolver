@@ -1,8 +1,0 @@
-{
-    "version" : "2018-05-29",
-    "operation" : "Query",
-    "query" : $util.transform.toDynamoDBFilterExpression($ctx.args.filter),
-    "limit" : $util.defaultIfNull($context.args.limit, 20),
-    "scanIndexForward" : false,
-    "select" : "ALL_ATTRIBUTES"
-}

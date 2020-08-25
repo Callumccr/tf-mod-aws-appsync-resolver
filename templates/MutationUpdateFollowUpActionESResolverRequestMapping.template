@@ -1,9 +1,0 @@
-#set($id=$ctx.args.licence+'_'+$ctx.args.actionDate+'_'+$ctx.args.issueDate)
-{
-    "version":"2018-05-29",
-    "operation":"POST",
-    "path":"/followupaction/_update/$id",
-    "params":{
-        "body": $util.toJson({"doc": $context.arguments})
-    }
-}
