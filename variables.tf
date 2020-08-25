@@ -44,10 +44,12 @@ variable "availability_zones" {
 variable "resolver_config" {
   description = "(Optional) - A list of maps that contain configuration for appsync resolvers to iteration over"
   type = list(object({
-    id          = string
-    type        = string
-    field       = string
-    data_source = string
+    id                = string
+    type              = string
+    field             = string
+    data_source       = string
+    request_template  = string
+    response_template = string
   }))
 }
 
@@ -61,14 +63,6 @@ variable "pipeline_resolver_config" {
     request_template  = string
     response_template = string
   }))
-  default = [{
-    kind              = ""
-    type              = ""
-    field             = ""
-    pipeline_config   = {}
-    request_template  = ""
-    response_template = ""
-  }]
 }
 
 variable "template_template_dir" {
@@ -84,16 +78,6 @@ variable "enabled" {
 
 variable "api_id" {
   description = "(Required) - The API ID for the GraphQL API."
-  type        = string
-}
-
-variable "request_template" {
-  description = "(Required) - The resolver request template"
-  type        = string
-}
-
-variable "response_template" {
-  description = "(Required) - The resolver response template"
   type        = string
 }
 
