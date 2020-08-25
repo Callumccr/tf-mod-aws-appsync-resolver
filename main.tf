@@ -4,6 +4,19 @@ resource "aws_appsync_resolver" "default" {
   api_id            = var.api_id
   data_source       = each.value.data_source
   field             = each.value.field
-  request_template  = file("${path.module}/templates/${var.request_template}")
-  response_template = file("${path.module}/templates/${var.response_templateß}")
+  request_template  = file("${path.module}/templates/${each.value.request_template}")
+  response_template = file("${path.module}/templates/${each.value.response_templateß}")
+}
+
+resource "aws_appsync_resolver" "pipeline" {
+  for_each          = var.enabled == true ? { for r in var.pipeline_resolver_config : r.field => r } : {}
+  type              = each.value.type
+  api_id            = var.api_id
+  field             = each.key
+  request_template  = file("${path.module}/templates/${each.value.request_template}")
+  response_template = file("${path.module}/templates/${each.value.response_templateß}")
+  kind              = each.value.kind
+  pipeline_config {
+    functions = each.value.pipeline_config.functions
+  }
 }

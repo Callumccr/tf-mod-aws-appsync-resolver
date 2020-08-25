@@ -51,6 +51,26 @@ variable "resolver_config" {
   }))
 }
 
+variable "pipeline_resolver_config" {
+  description = "(Optional) - A list of maps that contain configuration for appsync pipeline resolvers to iteration over"
+  type = list(object({
+    kind              = string
+    type              = string
+    field             = string
+    pipeline_config   = map(list(string))
+    request_template  = string
+    response_template = string
+  }))
+  default = [{
+    kind              = ""
+    type              = ""
+    field             = ""
+    pipeline_config   = {}
+    request_template  = ""
+    response_template = ""
+  }]
+}
+
 variable "enabled" {
   description = "(Optional) - A Switch that decides whether to create a terraform resource or run a provisioner. Default is true"
   type        = bool
