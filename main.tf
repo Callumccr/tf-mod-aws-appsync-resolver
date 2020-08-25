@@ -4,6 +4,6 @@ resource "aws_appsync_resolver" "default" {
   api_id            = var.api_id
   data_source       = each.value.data_source
   field             = each.value.field
-  request_template  = tostring(each.value.request_template)
-  response_template = each.value.response_template
+  request_template  = jsonencode(each.value.request_template)
+  response_template = jsonencode(each.value.response_template)
 }

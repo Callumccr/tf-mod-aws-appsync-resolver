@@ -48,7 +48,7 @@ variable "resolver_config" {
     type              = string
     field             = string
     data_source       = string
-    request_template  = string
+    request_template  = any
     response_template = string
   }))
 }
