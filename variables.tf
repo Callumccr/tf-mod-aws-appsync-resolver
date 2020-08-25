@@ -71,6 +71,11 @@ variable "pipeline_resolver_config" {
   }]
 }
 
+variable "template_location" {
+  description = "(Required) - A location of the appsync templates"
+  type        = string
+}
+
 variable "enabled" {
   description = "(Optional) - A Switch that decides whether to create a terraform resource or run a provisioner. Default is true"
   type        = bool
