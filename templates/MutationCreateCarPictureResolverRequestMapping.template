@@ -1,0 +1,16 @@
+{
+  "version": "2017-02-28",
+  "operation": "PutItem",
+  "key": {
+    "make": $util.dynamodb.toDynamoDBJson($ctx.args.make),
+    "model": $util.dynamodb.toDynamoDBJson($ctx.args.model),
+  },
+  "attributeValues": $util.dynamodb.toMapValuesJson($ctx.args),
+  "condition": {
+    "expression": "attribute_not_exists(#make) AND attribute_not_exists(#model)",
+    "expressionNames": {
+      "#make": "make",
+      "#model": "model"
+    }
+  }
+}

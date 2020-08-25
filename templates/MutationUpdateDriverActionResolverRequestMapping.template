@@ -1,0 +1,10 @@
+#set($id=$ctx.args.licence+'_'+$ctx.args.issueDate)
+
+{
+    "version": "2017-02-28",
+    "operation": "POST",
+    "path": "/driveraction/_update/$id",
+    "params": {
+        "body": $util.toJson({"doc": $context.args})
+    }
+}

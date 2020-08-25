@@ -1,0 +1,14 @@
+{
+  "version": "2018-05-29",
+  "operation": "PutItem",
+  "key": {
+    "vin": $util.dynamodb.toDynamoDBJson($ctx.args.vin),
+  },
+  "attributeValues": $util.dynamodb.toMapValuesJson($ctx.args),
+  "condition": {
+    "expression": "attribute_not_exists(#vin)",
+    "expressionNames": {
+      "#vin": "vin",
+    },
+  },
+}

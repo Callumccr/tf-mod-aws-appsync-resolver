@@ -1,0 +1,12 @@
+#**
+The 'params' key accepts any valid Elasticsearch DSL expression.
+You must replace the <index>, <type>, and <field> placeholders with actual values.
+*#
+{
+  "version":"2018-05-29",
+  "operation":"PUT",
+  "path":"/event/_doc/$util.autoId()",
+  "params":{
+    "body": $util.toJson($context.arguments)
+  }
+}

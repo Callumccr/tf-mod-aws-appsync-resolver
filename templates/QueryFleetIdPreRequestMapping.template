@@ -1,0 +1,4 @@
+#if($ctx.identity)
+	$util.qr($ctx.args.put("fleetId", $util.defaultIfNullOrBlank($ctx.identity.claims["custom:custom:organization"], "empty")))
+#end
+{}

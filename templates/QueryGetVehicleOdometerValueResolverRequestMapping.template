@@ -1,0 +1,27 @@
+#set($query = "
+	select vin, max(odometer) as metres
+	from riskos_dev.vehicle_state_view
+	where licence = '$ctx.args.licence'
+")
+
+#if($ctx.args.fleetId)
+	#set($query = $query + " and fleetId='$ctx.args.fleetId'")
+#end
+
+#set($body = {
+	"project": "riskos",
+    "sql": $query
+})
+
+{
+	"version": "2018-05-29",
+	"method": "POST",
+	"resourcePath": "/kylin",
+	"params":{
+		"body": $utils.toJson($body),
+		"headers": {
+			"Authorization": "Basic $ctx.prev.result.token",
+			"Content-Type": "application/json"
+		}
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "version": "2018-05-29",
+  "operation": "PutItem",
+  "key": {
+    "fleetId": $util.dynamodb.toDynamoDBJson($ctx.args.fleetId),
+  },
+  "attributeValues": $util.dynamodb.toMapValuesJson($ctx.args),
+  "condition": {
+    "expression": "attribute_not_exists(#fleetId)",
+    "expressionNames": {
+      "#fleetId": "fleetId",
+    },
+  },
+}

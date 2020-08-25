@@ -1,0 +1,4 @@
+#set($body = $util.parseJson($ctx.result.body))
+#set($secret = $util.parseJson($body.get("SecretString")))
+
+$util.toJson({"token": $secret.get("apikey")})

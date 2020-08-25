@@ -1,0 +1,1 @@
+$util.toJson($context.result.hits.hits[0].get("_source"))

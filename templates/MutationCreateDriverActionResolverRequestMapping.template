@@ -1,0 +1,14 @@
+#**
+The 'params' key accepts any valid Elasticsearch DSL expression.
+You must replace the <index>, <type>, and <field> placeholders with actual values.
+*#
+#set($id=$ctx.args.licence+'_'+$ctx.args.issueDate)
+
+{
+    "version":"2017-02-28",
+    "operation":"PUT",
+    "path":"/driveraction/_doc/$id",
+    "params":{
+        "body": $util.toJson($context.arguments)
+    }
+}

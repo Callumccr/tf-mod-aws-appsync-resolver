@@ -1,0 +1,8 @@
+{
+  "version": "2018-05-29",
+  "operation": "GetItem",
+  "key": {
+    "policyId": $util.dynamodb.toDynamoDBJson($ctx.args.policyId),
+    "updateTime": $util.dynamodb.toDynamoDBJson($ctx.args.updateTime),
+  },
+}

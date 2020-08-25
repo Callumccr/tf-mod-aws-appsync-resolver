@@ -1,0 +1,27 @@
+#set($query = "
+	select dt, round(sum(scoreAndDistance)/sum(tripDistanceInMetres), 0) as weightedScore
+    from riskos.insurance_transactions_view
+    where fleetId='$ctx.args.fleetId'
+    and dt > '$ctx.args.startDate'
+    and dt < '$ctx.args.endDate'
+    group by dt
+    order by dt
+")
+
+#set($body = {
+	"project": "riskos",
+    "sql": $query
+})
+
+{
+	"version": "2018-05-29",
+	"method": "POST",
+	"resourcePath": "/kylin",
+	"params":{
+		"body": $utils.toJson($body),
+		"headers": {
+			"Authorization": "Basic $ctx.prev.result.token",
+			"Content-Type": "application/json"
+		}
+	}
+}

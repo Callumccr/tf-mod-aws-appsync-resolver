@@ -1,0 +1,59 @@
+#set( $query = {} )
+#if( $ctx.args.filter )
+	$util.qr($query.put("bool", {}))
+	#if( $ctx.args.filter.fleetId || $ctx.args.filter.period || $ctx.args.filter.periodEndTimestamp )
+    	$util.qr($query.bool.put("must", []))
+
+        #if( $ctx.args.filter.fleetId )
+        	$util.qr($query.bool.must.add({
+            	"match": {
+                	"fleetId": "$ctx.args.filter.fleetId"
+                }
+            }))
+        #end
+
+				#if( $ctx.args.filter.period )
+        	$util.qr($query.bool.must.add({
+            	"match": {
+                	"period": "$ctx.args.filter.period"
+                }
+            }))
+        #end
+
+    #end
+
+    #if( $ctx.args.filter.periodEndTimestamp )
+    	$util.qr($query.bool.put("filter", {
+            "range": {
+                "periodEndTimestamp": {}
+            }
+        }))
+        #if( $ctx.args.filter.periodEndTimestamp.start )
+        	$util.qr($query.bool.filter.range.periodEndTimestamp.put("gte", $ctx.args.filter.periodEndTimestamp.start))
+        #end
+
+        #if( $ctx.args.filter.periodEndTimestamp.end )
+        	$util.qr($query.bool.filter.range.periodEndTimestamp.put("lte", $ctx.args.filter.periodEndTimestamp.end))
+        #end
+    #end
+#else
+	$util.qr($query.put("match_all", {}))
+#end
+
+{
+    "version":"2017-02-28",
+    "operation":"GET",
+    "path":"/fleetpremium/_search",
+    "params": {
+    	"headers": {},
+        "queryString": {},
+    		"body": {
+        	"from": $util.defaultIfNull($context.args.from, 0),
+					"size": $util.defaultIfNull($context.args.size, 100),
+        	"query": $util.toJson($query),
+        	"sort": {
+        		"periodEndTimestamp": "desc"
+        	}
+        }
+    }
+}

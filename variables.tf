@@ -44,12 +44,10 @@ variable "availability_zones" {
 variable "resolver_config" {
   description = "(Optional) - A list of maps that contain configuration for appsync resolvers to iteration over"
   type = list(object({
-    id                = string
-    type              = string
-    field             = string
-    data_source       = string
-    request_template  = any
-    response_template = string
+    id          = string
+    type        = string
+    field       = string
+    data_source = string
   }))
 }
 
@@ -61,6 +59,16 @@ variable "enabled" {
 
 variable "api_id" {
   description = "(Required) - The API ID for the GraphQL API."
+  type        = string
+}
+
+variable "request_template" {
+  description = "(Required) - The resolver request template"
+  type        = string
+}
+
+variable "response_template" {
+  description = "(Required) - The resolver response template"
   type        = string
 }
 

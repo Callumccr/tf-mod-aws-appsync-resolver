@@ -1,0 +1,73 @@
+#set( $query = {} )
+#if( $ctx.args.filter )
+	$util.qr($query.put("bool", {}))
+	#if( $ctx.args.filter.licence || $ctx.args.filter.startTimestamp || $ctx.args.filter.vin || $ctx.args.filter.fleetId )
+    	$util.qr($query.bool.put("must", []))
+
+        #if( $ctx.args.filter.licence )
+        	$util.qr($query.bool.must.add({
+            	"match": {
+             		"licence": "$ctx.args.filter.licence"
+                }
+            }))
+        #end
+
+        #if( $ctx.args.filter.vin )
+        	$util.qr($query.bool.must.add({
+            	"match": {
+             		"vin": "$ctx.args.filter.vin"
+                }
+            }))
+        #end
+
+        #if( $ctx.args.filter.startTimestamp )
+        	$util.qr($query.bool.must.add({
+            	"match": {
+                	"startTimestamp": $ctx.args.filter.startTimestamp
+                }
+            }))
+        #end
+
+				#if( $ctx.args.filter.fleetId )
+        	$util.qr($query.bool.must.add({
+            	"match": {
+                	"fleetId": $ctx.args.filter.fleetId
+                }
+            }))
+        #end
+    #end
+
+    #if( $ctx.args.filter.pathTimestamp )
+    	$util.qr($query.bool.put("filter", {
+            "range": {
+                "pathTimestamp": {}
+            }
+        }))
+        #if( $ctx.args.filter.pathTimestamp.start )
+        	$util.qr($query.bool.filter.range.pathTimestamp.put("gte", $ctx.args.filter.pathTimestamp.start))
+        #end
+
+        #if( $ctx.args.filter.pathTimestamp.end )
+        	$util.qr($query.bool.filter.range.pathTimestamp.put("lte", $ctx.args.filter.pathTimestamp.end))
+        #end
+    #end
+#else
+	$util.qr($query.put("match_all", {}))
+#end
+
+{
+    "version":"2018-05-29",
+    "operation":"POST",
+    "path":"/trip/_search?scroll=1m",
+    "params": {
+    	"headers": {},
+        "queryString": {},
+    	"body": {
+			"size": $util.defaultIfNull($context.args.size, 1000),
+            "query": $util.toJson($query),
+            "sort": {
+            	"pathTimestamp": "asc"
+            }
+        }
+    }
+}

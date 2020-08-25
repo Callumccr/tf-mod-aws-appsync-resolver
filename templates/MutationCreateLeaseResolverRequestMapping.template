@@ -1,0 +1,16 @@
+{
+  "version": "2018-05-29",
+  "operation": "PutItem",
+  "key": {
+    "licence": $util.dynamodb.toDynamoDBJson($ctx.args.licence),
+    "startDate": $util.dynamodb.toDynamoDBJson($ctx.args.startDate),
+  },
+  "attributeValues": $util.dynamodb.toMapValuesJson($ctx.args),
+  "condition": {
+    "expression": "attribute_not_exists(#licence) AND attribute_not_exists(#startDate)",
+    "expressionNames": {
+      "#licence": "licence",
+      "#startDate": "startDate",
+    },
+  },
+}

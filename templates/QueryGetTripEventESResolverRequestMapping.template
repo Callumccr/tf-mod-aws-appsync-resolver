@@ -1,0 +1,30 @@
+#set( $query = {
+	"bool": {
+    	"must": [
+        	{
+            	"match": {
+                	"licence": $ctx.args.licence
+                }
+            },
+            {
+            	"match": {
+                	"eventEndTimestamp": $ctx.args.eventEndTimestamp
+                }
+            }
+        ]
+    }
+})
+
+{
+    "version":"2018-05-29",
+    "operation":"GET",
+    "path":"/event/_search",
+    "params": {
+    	"headers": {},
+        "queryString": {},
+    	"body": {
+			"size": 1,
+            "query": $util.toJson($query),
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+  "version": "2018-05-29",
+  "operation": "PutItem",
+  "key": {
+    "motTestNumber": $util.dynamodb.toDynamoDBJson($ctx.args.motTestNumber),
+    "text": $util.dynamodb.toDynamoDBJson($ctx.args.text),
+  },
+  "attributeValues": $util.dynamodb.toMapValuesJson($ctx.args),
+  "condition": {
+    "expression": "attribute_not_exists(#motTestNumber) AND attribute_not_exists(#text)",
+    "expressionNames": {
+      "#motTestNumber": "motTestNumber",
+      "#text": "text",
+    },
+  },
+}

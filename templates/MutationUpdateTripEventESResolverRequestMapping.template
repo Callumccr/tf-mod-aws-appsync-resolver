@@ -1,0 +1,8 @@
+{
+    "version":"2018-05-29",
+    "operation":"PUT",
+    "path":"/event/_doc/$util.autoId()",
+    "params": {
+        "body": $util.toJson({"doc": $context.arguments})
+    }
+}

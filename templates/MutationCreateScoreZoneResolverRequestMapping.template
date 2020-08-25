@@ -1,0 +1,12 @@
+#set($id=$ctx.args.licence+'_'+$ctx.args.zoneStartTimestamp)
+
+{
+    "version":"2018-05-29",
+    "operation":"PUT",
+    "path":"/scorezone/_doc/$id",
+    "params":{
+        "body": $util.toJson(
+        	$context.arguments
+      )
+    }
+}

@@ -1,0 +1,9 @@
+#set($id=$ctx.args.registrationNumber+'_'+$ctx.args.eventType+'_'+$ctx.args.startTimestamp)
+{
+    "version":"2018-05-29",
+    "operation":"POST",
+    "path":"/insurancetransaction/_update/$id",
+    "params":{
+        "body": $util.toJson({"doc": $context.arguments})
+    }
+}

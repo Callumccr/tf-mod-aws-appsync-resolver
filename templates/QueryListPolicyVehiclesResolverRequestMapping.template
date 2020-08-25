@@ -1,0 +1,75 @@
+#set( $query = {} )
+#if( $ctx.args.filter )
+	$util.qr($query.put("bool", {}))
+	#if( $ctx.args.filter.fleetId || $ctx.args.filter.policyId ||  $ctx.args.filter.reg || $ctx.args.filter.vin || $ctx.args.filter.policyDate )
+    	$util.qr($query.bool.put("must", []))
+
+        #if( $ctx.args.filter.fleetId )
+        	$util.qr($query.bool.must.add({
+            	"match": {
+                	"fleetId": "$ctx.args.filter.fleetId"
+                }
+            }))
+        #end
+
+				#if( $ctx.args.filter.policyId )
+        	$util.qr($query.bool.must.add({
+            	"match": {
+                	"policyId": "$ctx.args.filter.policyId"
+                }
+            }))
+        #end
+
+				#if( $ctx.args.filter.reg )
+        	$util.qr($query.bool.must.add({
+            	"match": {
+                	"reg": "$ctx.args.filter.reg"
+                }
+            }))
+        #end
+
+				#if( $ctx.args.filter.vin )
+        	$util.qr($query.bool.must.add({
+            	"match": {
+                	"vin": "$ctx.args.filter.vin"
+                }
+            }))
+        #end
+
+    #end
+
+    #if( $ctx.args.filter.policyDate )
+    	$util.qr($query.bool.put("filter", {
+            "range": {
+                "policyDate": {}
+            }
+        }))
+        #if( $ctx.args.filter.policyDate.start )
+        	$util.qr($query.bool.filter.range.policyDate.put("gte", $ctx.args.filter.policyDate.start))
+        #end
+
+        #if( $ctx.args.filter.policyDate.end )
+        	$util.qr($query.bool.filter.range.policyDate.put("lte", $ctx.args.filter.policyDate.end))
+        #end
+    #end
+#else
+	$util.qr($query.put("match_all", {}))
+#end
+
+{
+    "version":"2017-02-28",
+    "operation":"GET",
+    "path":"/policyvehicle/_search",
+    "params": {
+    	"headers": {},
+        "queryString": {},
+    		"body": {
+        	"from": $util.defaultIfNull($context.args.from, 0),
+					"size": $util.defaultIfNull($context.args.size, 100),
+        	"query": $util.toJson($query),
+        	"sort": {
+        		"policyDate": "desc"
+        	}
+        }
+    }
+}

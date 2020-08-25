@@ -1,0 +1,31 @@
+#set( $query = {} )
+#if( $ctx.args )
+	$util.qr($query.put("bool", {}))
+	#if( $ctx.args.licence || $ctx.args.eventEndTimestamp )
+    	$util.qr($query.bool.put("must",[]))
+        #if( $ctx.args.licence )
+        	$util.qr($query.bool.must.add({
+            "match": {
+              "licence": "$ctx.args.licence"}
+          }))
+        #end
+        #if( $ctx.args.eventEndTimestamp )
+        	$util.qr($query.bool.must.add({
+            "match": {
+              "eventEndTimestamp": "$ctx.args.eventEndTimestamp"}
+          }))
+        #end
+    #end
+#end
+{
+  "version": "2018-05-29",
+  "operation": "POST",
+  "path": "/event/_delete_by_query",
+  "params": {
+    "headers": {},
+    "queryString": {},
+    "body": {
+      "query": $util.toJson($query),
+    }
+  }
+}
