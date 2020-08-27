@@ -121,9 +121,7 @@ TO-DO
 
 | Name | Description |
 |------|-------------|
-| pipeline\_resolver\_arn | A list of pipeline resolver ARNs |
-| resolver\_arn | A list of pipeline resolver ARNs |
-| resolver\_config | A list of resolver ARNs |
+| resolver\_arns | A list of resolver ARNs |
 
 
 
