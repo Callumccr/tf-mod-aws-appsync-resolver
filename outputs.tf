@@ -2,15 +2,7 @@
 # Outputs: TF-MOD-AWS-APPSYNC-RESOLVER
 # -----------------------------------------------------------------------------
 
-output "resolver_config" {
-  value       = { for r in var.resolver_config : r.id => r... }
+output "resolver_arns" {
+  value       = concat([for f in aws_appsync_resolver.default : f.arn], [for f in aws_appsync_resolver.pipeline : f.arn])
   description = "A list of resolver ARNs"
 }
-
-output "resolver_arn" {
-  value       = [for r in aws_appsync_resolver.default : r.arn]
-  description = "A list of pipeline resolver ARNs"
-}
-
-
-

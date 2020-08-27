@@ -10,7 +10,9 @@
 |------|-------------|------|---------|:-----:|
 | api\_id | (Required) - The API ID for the GraphQL API. | `string` | n/a | yes |
 | availability\_zones | (Required) - The AWS avaialbility zones (e.g. ap-southeast-2a/b/c). Autoloaded from region.tfvars. | `list(string)` | n/a | yes |
+| pipeline\_resolver\_config | (Optional) - A list of maps that contain configuration for appsync pipeline resolvers to iteration over | <code><pre>list(object({<br>    kind              = string<br>    type              = string<br>    field             = string<br>    pipeline_config   = map(list(string))<br>    request_template  = string<br>    response_template = string<br>  }))<br></pre></code> | n/a | yes |
 | resolver\_config | (Optional) - A list of maps that contain configuration for appsync resolvers to iteration over | <code><pre>list(object({<br>    id                = string<br>    type              = string<br>    field             = string<br>    data_source       = string<br>    request_template  = string<br>    response_template = string<br>  }))<br></pre></code> | n/a | yes |
+| template\_dir | (Required) - The full directory path of the appsync templates | `string` | n/a | yes |
 | attributes | (Optional) - Additional attributes (e.g. `1`) | `list(string)` | `[]` | no |
 | aws\_account\_id | The AWS account id of the provider being deployed to (e.g. 12345678). Autoloaded from account.tfvars | `string` | `""` | no |
 | aws\_assume\_role\_arn | (Optional) - ARN of the IAM role when optionally connecting to AWS via assumed role. Autoloaded from account.tfvars. | `string` | `""` | no |
@@ -28,6 +30,5 @@
 
 | Name | Description |
 |------|-------------|
-| resolver\_arn | A list of pipeline resolver ARNs |
-| resolver\_config | A list of resolver ARNs |
+| resolver\_arns | A list of resolver ARNs |
 

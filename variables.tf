@@ -48,9 +48,26 @@ variable "resolver_config" {
     type              = string
     field             = string
     data_source       = string
-    request_template  = any
+    request_template  = string
     response_template = string
   }))
+}
+
+variable "pipeline_resolver_config" {
+  description = "(Optional) - A list of maps that contain configuration for appsync pipeline resolvers to iteration over"
+  type = list(object({
+    kind              = string
+    type              = string
+    field             = string
+    pipeline_config   = map(list(string))
+    request_template  = string
+    response_template = string
+  }))
+}
+
+variable "template_dir" {
+  description = "(Required) - The full directory path of the appsync templates"
+  type        = string
 }
 
 variable "enabled" {
