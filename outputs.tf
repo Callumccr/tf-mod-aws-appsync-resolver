@@ -3,6 +3,6 @@
 # -----------------------------------------------------------------------------
 
 output "resolver_arns" {
-  value       = concat([for f in aws_appsync_function.default : f.arn], [for f in aws_appsync_function.pipeline : f.arn])
+  value       = concat([for f in aws_appsync_resolver.default : f.arn], [for f in aws_appsync_resolver.pipeline : f.arn])
   description = "A list of resolver ARNs"
 }
