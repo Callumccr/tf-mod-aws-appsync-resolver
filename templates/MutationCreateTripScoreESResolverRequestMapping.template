@@ -1,0 +1,9 @@
+#set($id=$ctx.args.licence+'_'+$ctx.args.startTimestamp)
+{
+    "version":"2018-05-29",
+    "operation":"PUT",
+    "path":"/tripscore/_doc/$id",
+    "params":{
+        "body": $util.toJson($context.arguments)
+    }
+}

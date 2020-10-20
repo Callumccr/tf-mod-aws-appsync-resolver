@@ -1,0 +1,3 @@
+#if (!$context.result.hits.hits.isEmpty())
+	$utils.toJson($context.result.hits.hits[0].get("_source"))
+#end

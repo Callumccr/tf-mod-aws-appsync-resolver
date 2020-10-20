@@ -1,0 +1,48 @@
+#set($query = "
+	select max_fatiguelevel as fatigueLevel,
+				count(max_fatiguelevel) as eventCount
+	from (
+		select licence,
+						fleetId,
+						minute_start,
+						max_fatiguelevel
+		from (select licence,
+								fleetId,
+								minute_start,
+								fatiguelevel as max_fatiguelevel,
+								lag(fatiguelevel) over (partition by licence
+										order by minute_start) prior_fatiguelevel
+						from fatigue
+						where minute_start>='$ctx.args.startDate' and minute_start<='$ctx.args.endDate'
+						group by licence, fleetId, minute_start, fatiguelevel)
+		where (max_fatiguelevel != prior_fatiguelevel
+			or prior_fatiguelevel is null)
+		group by licence, fleetId, minute_start, max_fatiguelevel
+		order by licence, minute_start
+	)
+	where fleetId = '$ctx.args.fleetId'
+	")
+
+#if($ctx.args.licence)
+#set($query = $query + " and licence = '$ctx.args.licence'")
+#end
+
+#set($query = $query + " group by max_fatiguelevel")
+
+#set($body = {
+	"project": "riskos",
+    "sql": $query
+})
+
+{
+	"version": "2018-05-29",
+	"method": "POST",
+	"resourcePath": "/kylin/api/query",
+	"params":{
+		"body": $utils.toJson($body),
+		"headers": {
+			"Authorization": "Basic $ctx.prev.result.token",
+			"Content-Type": "application/json"
+		}
+  }
+}

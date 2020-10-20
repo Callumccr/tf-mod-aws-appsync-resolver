@@ -1,0 +1,6 @@
+#set($id=$ctx.args.licence+'_'+$ctx.args.actionDate+'_'+$ctx.args.issueDate)
+{
+    "version":"2018-05-29",
+    "operation":"GET",
+    "path":"/followupaction/_doc/$id"
+}

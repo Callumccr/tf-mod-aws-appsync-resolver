@@ -8,7 +8,7 @@
 name: tf-mod-aws-appsync-resolver
 
 # Canonical Git repo
-github_repo: https://github.com/callumccr/tf-mod-aws-appsync-resolver
+github_repo: https://github.com/humn-ai/tf-mod-aws-appsync-resolver
 
 # # Badges to display
 # badges:
@@ -18,7 +18,7 @@ github_repo: https://github.com/callumccr/tf-mod-aws-appsync-resolver
 
 # Short description of this project
 description: |-
-  This module creates an AWS AppSync Resolver.
+  This Terraform module creates an AWS AppSync Resolver.
 
 # External context to include
 include:

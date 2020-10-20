@@ -1,0 +1,62 @@
+#set( $query = {} )
+#set( $aggs = {
+    "eventsPerTrip": {
+    	"terms": {
+    		"field": "startTimestamp",
+    		"order": {"_key": "desc"},
+    		"size": 5000
+    	}
+    }
+})
+#if( $ctx.args.filter )
+	$util.qr($query.put("bool", {}))
+	#if( $ctx.args.filter.licence || $ctx.args.filter.fleetId )
+    	$util.qr($query.bool.put("must", []))
+
+		#if( $ctx.args.filter.licence )
+			$util.qr($query.bool.must.add({
+				"match": {
+					"licence": "$ctx.args.filter.licence"
+				}
+			}))
+		#end
+
+		#if( $ctx.args.filter.fleetId )
+			$util.qr($query.bool.must.add({
+				"match": {
+					"fleetId": "$ctx.args.filter.fleetId"
+				}
+			}))
+		#end
+    #end
+    
+    #if( $ctx.args.filter.startTimestamp && ($ctx.args.filter.startTimestamp.start || $ctx.args.filter.startTimestamp.end))
+    	$util.qr($query.bool.put("filter", {
+            "range": {
+                "startTimestamp": {}
+            }
+        }))
+        #if( $ctx.args.filter.startTimestamp.start )
+        	$util.qr($query.bool.filter.range.startTimestamp.put("gte", $ctx.args.filter.startTimestamp.start))
+        #end
+        
+        #if( $ctx.args.filter.startTimestamp.end )
+        	$util.qr($query.bool.filter.range.startTimestamp.put("lte", $ctx.args.filter.startTimestamp.end))
+        #end
+    #end
+#else
+	$util.qr($query.put("match_all", {}))
+#end
+{
+    "version":"2017-02-28",
+    "operation":"GET",
+    "path":"/event/_search",
+    "params": {
+    	"headers": {},
+        "queryString": {},
+    	"body": {
+            "query": $util.toJson($query),
+            "aggs": $util.toJson($aggs),
+        }
+    }
+}

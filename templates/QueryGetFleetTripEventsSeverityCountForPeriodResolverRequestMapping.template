@@ -1,0 +1,28 @@
+#set($query = "
+	select count(*)
+	from riskos_dev.trip_events_view
+	where severity='$ctx.args.severity'
+    and dt > '$ctx.args.startDate'
+    and fleetId = '$ctx.args.fleetId'
+")
+
+#if( $ctx.args.endDate )
+	#set($query = $query + " and dt < '$ctx.args.endDate'" )
+#end
+#set($body = {
+	"project": "riskos",
+    "sql": $query
+})
+
+{
+  	"version": "2018-05-29",
+  	"method": "POST",
+  	"resourcePath": "/kylin/api/query",
+  	"params":{
+    	"body": $utils.toJson($body),
+    	"headers": {
+        	"Authorization": "Basic $ctx.prev.result.token",
+        	"Content-Type": "application/json"
+      	}
+	}
+}

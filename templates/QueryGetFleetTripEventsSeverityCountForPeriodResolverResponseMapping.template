@@ -1,0 +1,7 @@
+#if($ctx.error)
+  	$util.error($ctx.error.message, $ctx.error.type)
+#end
+$util.toJson({
+	"severity": $ctx.args.severity,
+  	"count": $util.defaultIfNull($util.parseJson($ctx.result.body).results[0][0], 0)
+})

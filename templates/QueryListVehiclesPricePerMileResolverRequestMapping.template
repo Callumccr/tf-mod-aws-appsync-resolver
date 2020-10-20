@@ -1,0 +1,33 @@
+#set($query =
+	"select registrationNumber, round(sum(tripPremium)/sum(tripDistanceInMetres) * 1609, 2) as pricePerMile
+	from riskos.insurance_transactions_view
+	where fleetId='$ctx.args.fleetId'
+")
+
+#if($ctx.args.startDate)
+#set($query = $query + " and dt>='$ctx.args.startDate'")
+#end
+
+#if($ctx.args.endDate)
+#set($query = $query + " and dt<='$ctx.args.endDate'")
+#end
+
+#set($query = $query + " group by registrationNumber")
+
+#set($body = {
+	"project": "riskos",
+    "sql": $query
+})
+
+{
+	"version": "2018-05-29",
+	"method": "POST",
+	"resourcePath": "/kylin/api/query",
+	"params":{
+		"body": $utils.toJson($body),
+		"headers": {
+			"Authorization": "Basic $ctx.prev.result.token",
+			"Content-Type": "application/json"
+		}
+  }
+}

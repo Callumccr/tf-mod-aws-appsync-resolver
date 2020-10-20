@@ -1,0 +1,16 @@
+#**
+The 'params' key accepts any valid Elasticsearch DSL expression.
+You must replace the <index>, <type>, and <field> placeholders with actual values.
+*#
+#set($id=$ctx.args.licence+'_'+$ctx.args.alertDate)
+
+{
+    "version": "2018-05-29",
+    "operation":"PUT",
+    "path":"/alert/_doc/$id",
+    "params":{
+        "body": $util.toJson(
+        	$context.arguments
+      )
+    }
+}

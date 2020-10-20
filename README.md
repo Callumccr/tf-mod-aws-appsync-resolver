@@ -48,7 +48,7 @@
 ## Module description
 
 
-This module creates an AWS AppSync Resolver.
+This Terraform module creates an AWS AppSync Resolver.
 
 
 
@@ -64,7 +64,7 @@ Project: **[%!s(<nil>)](%!s(<nil>))** : [[%!s(<nil>)](%!s(<nil>))] | [[%!s(<nil>
 ## Usage
 
 **IMPORTANT:** The `master` branch is used in `source` just as an example. In your code, do not pin to `master` because there may be breaking changes between releases.
-Instead pin to the release tag (e.g. `?ref=tags/x.y.z`) of one of our [latest releases](https://github.com/https://github.com/callumccr/tf-mod-aws-appsync-resolver/releases).
+Instead pin to the release tag (e.g. `?ref=tags/x.y.z`) of one of our [latest releases](https://github.com/https://github.com/humn-ai/tf-mod-aws-appsync-resolver/releases).
 
 
 The below values shown in the usage of this module are purely representative, please replace desired values as required.
@@ -100,22 +100,24 @@ TO-DO
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:-----:|
 | api\_id | (Required) - The API ID for the GraphQL API. | `string` | n/a | yes |
-| availability\_zones | (Required) - The AWS avaialbility zones (e.g. ap-southeast-2a/b/c). Autoloaded from region.tfvars. | `list(string)` | n/a | yes |
+| delimiter | Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes`. Defaults to `-` (hyphen). Set to `""` to use no delimiter at all. | `string` | n/a | yes |
+| enabled | Set to false to prevent the module from creating any resources | `bool` | n/a | yes |
+| environment | Environment, e.g. 'uw2', 'us-west-2', OR 'prod', 'staging', 'dev', 'UAT' | `string` | n/a | yes |
+| id\_length\_limit | Limit `id` to this many characters. Set to `0` for unlimited length. Set to `null` for default, which is `0`. Does not affect `id_full`. | `number` | n/a | yes |
+| label\_order | The naming order of the id output and Name tag. Defaults to ["namespace", "environment", "stage", "name", "attributes"]. You can omit any of the 5 elements, but at least one must be present. | `list(string)` | n/a | yes |
+| name | Solution name, e.g. 'app' or 'jenkins' | `string` | n/a | yes |
+| namespace | Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | n/a | yes |
 | pipeline\_resolver\_config | (Optional) - A list of maps that contain configuration for appsync pipeline resolvers to iteration over | <code><pre>list(object({<br>    kind              = string<br>    type              = string<br>    field             = string<br>    pipeline_config   = map(list(string))<br>    request_template  = string<br>    response_template = string<br>  }))<br></pre></code> | n/a | yes |
+| regex\_replace\_chars | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`. If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | n/a | yes |
 | resolver\_config | (Optional) - A list of maps that contain configuration for appsync resolvers to iteration over | <code><pre>list(object({<br>    id                = string<br>    type              = string<br>    field             = string<br>    data_source       = string<br>    request_template  = string<br>    response_template = string<br>  }))<br></pre></code> | n/a | yes |
-| template\_dir | (Required) - The full directory path of the appsync templates | `string` | n/a | yes |
-| attributes | (Optional) - Additional attributes (e.g. `1`) | `list(string)` | `[]` | no |
+| stage | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | n/a | yes |
+| additional\_tag\_map | Additional tags for appending to tags\_as\_list\_of\_maps. Not added to `tags`. | `map(string)` | `{}` | no |
+| attributes | Additional attributes (e.g. `1`) | `list(string)` | `[]` | no |
 | aws\_account\_id | The AWS account id of the provider being deployed to (e.g. 12345678). Autoloaded from account.tfvars | `string` | `""` | no |
 | aws\_assume\_role\_arn | (Optional) - ARN of the IAM role when optionally connecting to AWS via assumed role. Autoloaded from account.tfvars. | `string` | `""` | no |
-| aws\_assume\_role\_external\_id | (Optional) - The external ID to use when making the AssumeRole call. | `string` | `""` | no |
-| aws\_assume\_role\_session\_name | (Optional) - The session name to use when making the AssumeRole call. | `string` | `""` | no |
 | aws\_region | The AWS region (e.g. ap-southeast-2). Autoloaded from region.tfvars. | `string` | `""` | no |
-| delimiter | (Optional) - Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes` | `string` | `"-"` | no |
-| enabled | (Optional) - A Switch that decides whether to create a terraform resource or run a provisioner. Default is true | `bool` | `true` | no |
-| environment | (Optional) - Environment, e.g. 'dev', 'qa', 'staging', 'prod' | `string` | `""` | no |
-| name | (Optional) - Solution name, e.g. 'vault', 'consul', 'keycloak', 'k8s', or 'baseline' | `string` | `""` | no |
-| namespace | (Optional) - Namespace, which could be your abbreviated product team, e.g. 'rci', 'mi', 'hp', or 'core' | `string` | `""` | no |
-| tags | (Optional) - Additional tags | `map(string)` | `{}` | no |
+| context | Single object for setting entire context at once. See description of individual variables for details. Leave string and numeric variables as `null` to use default value. Individual variable settings (non-null) override settings in context object, except for attributes, tags, and additional\_tag\_map, which are merged. | <code><pre>object({<br>    enabled             = bool<br>    namespace           = string<br>    environment         = string<br>    stage               = string<br>    name                = string<br>    delimiter           = string<br>    attributes          = list(string)<br>    tags                = map(string)<br>    additional_tag_map  = map(string)<br>    regex_replace_chars = string<br>    label_order         = list(string)<br>    id_length_limit     = number<br>  })<br></pre></code> | <code><pre>{<br>  "additional_tag_map": {},<br>  "attributes": [],<br>  "delimiter": null,<br>  "enabled": true,<br>  "environment": null,<br>  "id_length_limit": null,<br>  "label_order": [],<br>  "name": null,<br>  "namespace": null,<br>  "regex_replace_chars": null,<br>  "stage": null,<br>  "tags": {}<br>}<br></pre></code> | no |
+| tags | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
 
 ## Outputs
 
@@ -142,7 +144,7 @@ Additionally, check out these other related, and maintained projects.
 
 **Got a question?** We got answers. 
 
-File a Github [issue](https://github.com/callumccr/tf-mod-aws-appsync-resolver/issues), or message us on [Slack][slack]
+File a Github [issue](https://github.com/humn-ai/tf-mod-aws-appsync-resolver/issues), or message us on [Slack][slack]
 
 
 ### Contributors
@@ -167,9 +169,7 @@ File a Github [issue](https://github.com/callumccr/tf-mod-aws-appsync-resolver/i
 
 [![README Footer][logo]][website]
 
-  [logo]: https://wariva-github-assets.s3.eu-west-2.amazonaws.com/logo.png
-  [website]: https://www.linkedin.com/company/52152765/admin/
-  [github]: https://github.com/Callumccr
-  [slack]: https://wariva.slack.com
-  [linkedin]: https://www.linkedin.com/in/callum-robertson-1a55b6110/
-  [terraform_modules]: https://github.com/Callumccr
+  [logo]: https://humnai-web-assests.s3-eu-west-1.amazonaws.com/humn-logo.png
+  [website]: https://https://humn.ai/
+  [github]: https://github.com/humn-ai/tf-humn-iac-live
+  [slack]: humncloud.slack.com

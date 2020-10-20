@@ -1,0 +1,18 @@
+{
+    "version": "2018-05-29",
+    "operation": "PUT",
+    "path": "/trip/_doc/$util.autoId()",
+    "params": {
+        "body": {
+			"licence": "$context.arguments.licence",
+			"vin": "$context.arguments.vin",
+			"pathTimestamp": $context.arguments.pathTimestamp,
+			"startTimestamp": $context.arguments.startTimestamp,
+			"fleetId": "$context.arguments.fleetId",
+			"location": {
+				"lat": $context.arguments.lat,
+				"lon": $context.arguments.lng
+			}
+      	}
+    }
+}

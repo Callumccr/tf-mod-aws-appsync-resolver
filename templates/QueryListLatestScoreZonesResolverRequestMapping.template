@@ -1,0 +1,50 @@
+#set( $query = {} )
+
+#if($ctx.args.filter && ($ctx.args.filter.licence || $ctx.args.filter.fleetId || $ctx.args.filter.scoreZone))
+	$util.qr($query.put("bool", {"must": []}))
+    #if($ctx.args.filter.licence)
+    	$util.qr($query.bool.must.add({"match": {"licence": "$ctx.args.filter.licence"}}))
+    #end
+    #if($ctx.args.filter.fleetId)
+    	$util.qr($query.bool.must.add({"match": {"fleetId": "$ctx.args.filter.fleetId"}}))
+    #end
+    #if($ctx.args.filter.scoreZone)
+    	$util.qr($query.bool.must.add({"match": {"scoreZone": "$ctx.args.filter.scoreZone"}}))
+    #end
+#else
+	$util.qr($query.put("match_all", {}))
+#end
+
+{
+    "version":"2017-02-28",
+    "operation":"GET",
+    "path":"/scorezone/_search",
+    "params":{
+        "body": {
+            "size": 0,
+            "query": $util.toJson($query),
+            "aggs": {
+            "licences": {
+                "terms": {
+                    "field": "licence.keyword",
+                    "size": 5000
+                },
+                "aggs": {
+                    "timestamp": {
+                        "top_hits": {
+                            "sort": [
+                                {
+                                    "zoneStartTimestamp": {
+                                        "order": "desc"
+                                    }
+                                }
+                            ],
+                            "size": 1
+                        }
+                    }
+                }
+            }
+        }
+        }
+    }
+}

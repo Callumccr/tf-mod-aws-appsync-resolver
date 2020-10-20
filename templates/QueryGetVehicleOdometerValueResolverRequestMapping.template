@@ -1,0 +1,29 @@
+#set($query = "
+	select registrationNumber, sum(tripDistanceInMetres) as metres
+	from riskos.insurance_transactions_view
+	where licence = '$ctx.args.licence'
+")
+
+#if($ctx.args.fleetId)
+	#set($query = $query + " and fleetId='$ctx.args.fleetId'")
+#end
+
+#set($query = $query + " group by registrationNumber")
+
+#set($body = {
+	"project": "riskos",
+    "sql": $query
+})
+
+{
+	"version": "2018-05-29",
+	"method": "POST",
+	"resourcePath": "/kylin/api/query",
+	"params":{
+		"body": $utils.toJson($body),
+		"headers": {
+			"Authorization": "Basic $ctx.prev.result.token",
+			"Content-Type": "application/json"
+		}
+  }
+}

@@ -1,0 +1,10 @@
+#if($ctx.identity)
+	#set($f = $util.defaultIfNull($ctx.args.filter, {}))
+	$util.qr($f.put("fleetId", {"eq": $util.defaultIfNullOrBlank($ctx.identity.claims["custom:custom:organization"], "empty")}))
+#else
+	#set($f = $ctx.args.filter)
+#end
+
+$util.qr($ctx.args.put("filter", $f))
+
+{}

@@ -1,0 +1,21 @@
+#**
+$context.result contains the full response of the Elasticsearch query.
+Select a subset of information or iterate through hits to return the
+same shape as is expected by this field.
+*#
+{
+	"items": [
+        #foreach($bucket in $context.result.aggregations.vins.buckets)
+          	#if( $velocityCount > 1 ) , #end
+            $util.toJson({
+                "licence": $bucket.position.hits.hits.get(0).get("_source")['licence'],
+                "vin": $bucket.position.hits.hits.get(0).get("_source")['vin'],
+                "pathTimestamp": $bucket.position.hits.hits.get(0).get("_source")['pathTimestamp'],
+                "startTimestamp": $bucket.position.hits.hits.get(0).get("_source")['startTimestamp'],
+								"fleetId": $bucket.position.hits.hits.get(0).get("_source")['fleetId'],
+                "lat": $bucket.position.hits.hits.get(0).get("_source")['location']['lat'],
+                "lng": $bucket.position.hits.hits.get(0).get("_source")['location']['lon']
+            })
+        #end
+    ]
+}

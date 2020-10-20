@@ -1,0 +1,57 @@
+## Below example shows how to look up an item with a Primary Key of "id" from GraphQL arguments
+## The helper $util.dynamodb.toDynamoDBJson automatically converts to a DynamoDB formatted request
+## There is a "context" object with arguments, identity, headers, and parent field information you can access.
+## It also has a shorthand notation avaialable:
+##  - $context or $ctx is the root object
+##  - $ctx.arguments or $ctx.args contains arguments
+##  - $ctx.identity has caller information, such as $ctx.identity.username
+##  - $ctx.request.headers contains headers, such as $context.request.headers.xyz
+##  - $ctx.source is a map of the parent field, for instance $ctx.source.xyz
+## Read more: https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference.html
+
+#set( $query = {} )
+#if( $ctx.source )
+	$util.qr($query.put("bool", {}))
+	#if( $ctx.source.policyId || $ctx.source.updateTime || $ctx.source.fleetId )
+    	$util.qr($query.bool.put("must", []))
+
+        #if( $ctx.source.policyId )
+        	$util.qr($query.bool.must.add({
+            	"match": {
+             		"policyId": "$ctx.source.policyId"
+                }
+            }))
+        #end
+
+				#if( $ctx.source.updateTime )
+        	$util.qr($query.bool.must.add({
+            	"match": {
+             		"policyDate": "$ctx.source.updateTime"
+                }
+            }))
+        #end
+
+        #if( $ctx.source.fleetId )
+            $util.qr($query.bool.must.add({
+                "match": {
+                    "fleetId": "$ctx.source.fleetId"
+                }
+            }))
+        #end
+#end
+#else
+	$util.qr($query.put("match_all", {}))
+#end
+
+{
+  "version":"2018-05-29",
+  "operation":"GET",
+  "path":"/policyvehicle/_search",
+  "params":{
+      "body": {
+          "from": $util.defaultIfNull($context.args.from, 0),
+          "size": $util.defaultIfNull($context.args.size, 5000),
+          "query": $util.toJson($query)
+      }
+  }
+}

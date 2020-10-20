@@ -1,0 +1,29 @@
+#**
+The 'params' key accepts any valid Elasticsearch DSL expression.
+You must replace the <index>, <type>, and <field> placeholders with actual values.
+*#
+{
+    "version": "2018-05-29",
+    "operation": "POST",
+    "path": "/trip/_delete_by_query",
+    "params": {
+        "body": {
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "match": {
+                                "licence": "$context.arguments.licence"
+                            }
+                        },
+                        {
+                            "match": {
+                                "startTimestamp": $context.arguments.startTimestamp
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
